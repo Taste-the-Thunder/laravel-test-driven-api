@@ -2,15 +2,19 @@
 
 namespace Tests\Feature;
 
+use App\Models\TodoList;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class TodoListTest extends TestCase
 {
-    public function test_store_todo_list(): void
+    use RefreshDatabase;
+
+    public function test_fetch_todo_list(): void
     {
        // preperation / prepare
+       TodoList::create(['name' => 'my list']);
 
        // action / perform
        $response = $this->getJson(route('todo-list.store'));
