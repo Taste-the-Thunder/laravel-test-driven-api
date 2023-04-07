@@ -24,7 +24,7 @@ class TodoListTest extends TestCase
 
 
        // action / perform
-       $response = $this->getJson(route('todo-list.store'));
+       $response = $this->getJson(route('todo-list.index'));
 
        // assertion / predict
        $this->assertEquals(1,count($response->json()));
@@ -40,5 +40,16 @@ class TodoListTest extends TestCase
 
         // assertion
         $this->assertEquals($response['name'], $this->list->name);
+    }
+    public function test_store_new_todo_list()
+    {
+        // preperation
+        $list = TodoList::factory()->make();
+        // action
+        $response = $this->postJson(route('todo-list.store'),['name' => $list->name])->assertCreated()->json();
+
+        // assertion
+        $this->assertEquals($list->name, $response['name']);
+        $this->assertDatabaseHas('todo_lists', ['name' => $list->name]);
     }
 }
